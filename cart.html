@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Shopping Cart - Start Bootstrap Template</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropdown-category-target">
+                                <li><a class="dropdown-item" href="index.html">All Products</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <a href="cart.html" class="btn btn-outline-dark">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart-badge">0</span>
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Shopping Cart</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Review your items and checkout</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Cart Section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="cart-items" class="mb-4">
+                            <!-- Cart items will be populated here -->
+                        </div>
+                        <div id="cart-total" class="text-end">
+                            <!-- Total will be shown here -->
+                        </div>
+                        <div class="text-center mt-4">
+                            <button id="clear-cart-btn" class="btn btn-danger me-2" style="display: none;">Clear Cart</button>
+                            <button id="checkout-btn" class="btn btn-success" style="display: none;">Proceed to Checkout</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checkout Section -->
+                <div id="checkout-section" class="row mt-5" style="display: none;">
+                    <div class="col-lg-12">
+                        <h3 class="text-center mb-4">Checkout</h3>
+                        <form id="checkout-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>Personal Information</h5>
+                                    <div class="mb-3">
+                                        <label for="checkout-name" class="form-label">Full Name *</label>
+                                        <input type="text" class="form-control" id="checkout-name" required>
+                                        <div class="invalid-feedback" id="name-error"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="checkout-email" class="form-label">Email *</label>
+                                        <input type="email" class="form-control" id="checkout-email" required>
+                                        <div class="invalid-feedback" id="email-error"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="checkout-phone" class="form-label">Phone Number *</label>
+                                        <input type="tel" class="form-control" id="checkout-phone" required>
+                                        <div class="invalid-feedback" id="phone-error"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Delivery Address</h5>
+                                    <div class="mb-3">
+                                        <label for="checkout-address" class="form-label">Street Address *</label>
+                                        <input type="text" class="form-control" id="checkout-address" required>
+                                        <div class="invalid-feedback" id="address-error"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="checkout-city" class="form-label">City *</label>
+                                        <input type="text" class="form-control" id="checkout-city" required>
+                                        <div class="invalid-feedback" id="city-error"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="checkout-postal" class="form-label">Postal Code *</label>
+                                        <input type="text" class="form-control" id="checkout-postal" required>
+                                        <div class="invalid-feedback" id="postal-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button type="button" id="checkout-submit-btn" class="btn btn-success btn-lg">Place Order</button>
+                                <button type="button" id="checkout-cancel-btn" class="btn btn-secondary ms-2">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <script src="js/cart.js"></script>
+        <script>
+            // Load categories for dropdown
+            if (document.getElementById('dropdown-category-target')) {
+                getCategoriesToDropdown();
+            }
+        </script>
+    </body>
+</html>

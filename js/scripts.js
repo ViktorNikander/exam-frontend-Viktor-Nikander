@@ -3,8 +3,78 @@
 * Copyright 2013-2023 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
 */
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
+// Cart management functions
+function getCart() {
+    const cart = localStorage.getItem('cart');
+    return cart ? JSON.parse(cart) : [];
+}
+
+function saveCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function addToCart(product) {
+    const cart = getCart();
+    const existingItem = cart.find(item => item.id === product.id);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            image: product.image,
+            quantity: 1
+        });
+    }
+    
+    saveCart(cart);
+    updateCartBadge();
+    console.log('Added to cart:', product.title);
+}
+
+function updateCartBadge() {
+    const cart = getCart();
+    const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const badge = document.querySelector('.badge');
+    if (badge) {
+        badge.textContent = totalQuantity;
+    }
+}
+
+function removeFromCart(productId) {
+    const cart = getCart();
+    const updatedCart = cart.filter(item => item.id !== productId);
+    saveCart(updatedCart);
+    updateCartBadge();
+}
+
+function updateCartItemQuantity(productId, newQuantity) {
+    if (newQuantity <= 0) {
+        removeFromCart(productId);
+        return;
+    }
+    
+    const cart = getCart();
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+        item.quantity = newQuantity;
+        saveCart(cart);
+        updateCartBadge();
+    }
+}
+
+function clearCart() {
+    localStorage.removeItem('cart');
+    updateCartBadge();
+    console.log('Cart cleared');
+}
+
+function getCartTotal() {
+    const cart = getCart();
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+}
 
 function createProductCard(product) {
     const div = document.createElement("div");
@@ -45,6 +115,10 @@ function createProductCard(product) {
     viewButton.classList.add("btn", "btn-outline-dark", "mt-auto");
     viewButton.href = "#!";
     viewButton.textContent = "Add to cart";
+    viewButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        addToCart(product);
+    });
     footerTextCenter.appendChild(viewButton);
     cardFooter.appendChild(footerTextCenter);
     div.appendChild(cardFooter);
@@ -54,14 +128,13 @@ function createProductCard(product) {
 }
 
 function getProducts() {
-    console.log("Fetching products...");
+    console.log("Fetching all products...");
     fetch("https://fakestoreapi.com/products")
         .then(response => response.json())
         .then(products => { 
             console.log("Products fetched successfully:");
             document.getElementById("products-container").innerHTML = "";
             products.forEach(product => {
-                console.log("Product:", product);
                 const productCard = createProductCard(product);
                 document.getElementById("products-container").appendChild(productCard);
             });
@@ -77,7 +150,6 @@ function getProductsByCategory(category) {
             document.getElementById("products-container").innerHTML = "";
             console.log(`Products for category "${category}" fetched successfully:`, products);
             products.forEach(product => {
-                console.log("Product:", product);
                 const productCard = createProductCard(product);
                 document.getElementById("products-container").appendChild(productCard);
             });
@@ -92,7 +164,6 @@ function getCategoriesToDropdown() {
         .then(response => response.json())
         .then(categories => {
             categories.forEach(category => {
-                console.log("Adding category to dropdown:", category);
                 const li = document.createElement("li");
                 const button = document.createElement("button");
                 button.classList.add("dropdown-item");
@@ -107,9 +178,23 @@ function getCategoriesToDropdown() {
         .catch(error => console.error("Error fetching categories:", error));
 }
 
-document.getElementById("all-btn").addEventListener("click", getProducts);
-
 onload = () => {
     getCategoriesToDropdown();
     getProducts();
+    updateCartBadge();
+    
+    // Add navigation event listeners
+    document.getElementById("home-btn").addEventListener("click", () => {
+        window.location.href = "index.html";
+    });
+
+    document.getElementById("about-btn").addEventListener("click", () => {
+        window.location.href = "about.html";
+    });
+
+    document.getElementById("navbarDropdown").addEventListener("click", () => {
+        // Toggle dropdown - Bootstrap handles this
+    });
+
+    document.getElementById("all-btn").addEventListener("click", getProducts);
 };
