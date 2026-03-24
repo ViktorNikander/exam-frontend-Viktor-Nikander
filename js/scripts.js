@@ -170,7 +170,14 @@ function getCategoriesToDropdown() {
                 button.type = "button";
                 button.id = `${category.id}-btn`;
                 button.textContent = category;
-                button.addEventListener("click", () => getProductsByCategory(category));
+                button.addEventListener("click", () => {
+                    // If on about page, navigate to index.html with category hash, otherwise filter products
+                    if (window.location.pathname.includes("about.html")) {
+                        window.location.href = `index.html#${category}`;
+                    } else {
+                        getProductsByCategory(category);
+                    }
+                });
                 li.appendChild(button);
                 dropdownTarget.appendChild(li);
             });
@@ -182,6 +189,12 @@ onload = () => {
     getCategoriesToDropdown();
     getProducts();
     updateCartBadge();
+    
+    // Check for category hash parameter and load category if present
+    const hash = window.location.hash.substring(1); // Remove the '#'
+    if (hash && hash !== 'all') {
+        getProductsByCategory(hash);
+    }
     
     // Add navigation event listeners
     document.getElementById("home-btn").addEventListener("click", () => {
@@ -196,5 +209,13 @@ onload = () => {
         // Toggle dropdown - Bootstrap handles this
     });
 
-    document.getElementById("all-btn").addEventListener("click", getProducts);
+    document.getElementById("all-btn").addEventListener("click", () => {
+        // If on about page, navigate to index.html, otherwise load all products and clear hash
+        if (window.location.pathname.includes("about.html")) {
+            window.location.href = "index.html";
+        } else {
+            getProducts();
+            window.location.hash = ''; // Clear any category hash
+        }
+    });
 };
