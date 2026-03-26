@@ -212,6 +212,7 @@ function processCheckout() {
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotalContainer = document.getElementById('cart-total');
     const checkoutSection = document.getElementById('checkout-section');
+    const cartActions = document.getElementById('cart-actions');
     
     cartItemsContainer.innerHTML = `
         <div class="text-center">
@@ -226,6 +227,7 @@ function processCheckout() {
     `;
     cartTotalContainer.innerHTML = '';
     if (checkoutSection) checkoutSection.style.display = 'none';
+    cartActions.style.display = 'none';
     
     // Reset form for future use
     document.getElementById('checkout-form').reset();
