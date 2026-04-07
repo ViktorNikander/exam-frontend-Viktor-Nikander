@@ -65,7 +65,6 @@ function removeItem(productId) {
     displayCart();
 }
 
-// Checkout validation functions
 function validateCheckoutField(value, minLength, maxLength, fieldName) {
     if (!value || value.trim().length < minLength) {
         return `${fieldName} must be at least ${minLength} characters long`;
@@ -101,7 +100,6 @@ function validatePostalCode(postalCode) {
 }
 
 function validateCheckoutForm() {
-    // Clear previous errors
     document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
     document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
 
@@ -114,7 +112,6 @@ function validateCheckoutForm() {
 
     let isValid = true;
 
-    // Validate name
     const nameError = validateCheckoutField(name, 2, 50, "Name");
     if (nameError) {
         document.getElementById('name-error').textContent = nameError;
@@ -122,7 +119,6 @@ function validateCheckoutForm() {
         isValid = false;
     }
 
-    // Validate email
     const emailError = validateEmail(email);
     if (emailError) {
         document.getElementById('email-error').textContent = emailError;
@@ -130,7 +126,6 @@ function validateCheckoutForm() {
         isValid = false;
     }
 
-    // Validate phone
     const phoneError = validatePhone(phone);
     if (phoneError) {
         document.getElementById('phone-error').textContent = phoneError;
@@ -138,7 +133,6 @@ function validateCheckoutForm() {
         isValid = false;
     }
 
-    // Validate address
     const addressError = validateCheckoutField(address, 5, 50, "Street address");
     if (addressError) {
         document.getElementById('address-error').textContent = addressError;
@@ -146,7 +140,6 @@ function validateCheckoutForm() {
         isValid = false;
     }
 
-    // Validate city
     const cityError = validateCheckoutField(city, 2, 20, "City");
     if (cityError) {
         document.getElementById('city-error').textContent = cityError;
@@ -154,7 +147,6 @@ function validateCheckoutForm() {
         isValid = false;
     }
 
-    // Validate postal code
     const postalError = validatePostalCode(postal);
     if (postalError) {
         document.getElementById('postal-error').textContent = postalError;
@@ -185,7 +177,6 @@ function processCheckout() {
         return;
     }
 
-    // Get form data
     const orderData = {
         customer: {
             name: document.getElementById('checkout-name').value.trim(),
@@ -202,13 +193,10 @@ function processCheckout() {
         orderDate: new Date().toISOString()
     };
 
-    // Here you would typically send the order to a server
     console.log('Order processed:', orderData);
 
-    // Clear cart and show success message on page
     clearCart();
     
-    // Show success message instead of alert
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotalContainer = document.getElementById('cart-total');
     const checkoutSection = document.getElementById('checkout-section');
@@ -233,12 +221,10 @@ function processCheckout() {
     document.getElementById('checkout-form').reset();
 }
 
-// Initialize cart display when page loads
 if (document.getElementById('cart-items')) {
     displayCart();
     updateCartBadge();
     
-    // Add event listener for clear cart button
     const clearCartBtn = document.getElementById('clear-cart-btn');
     if (clearCartBtn) {
         clearCartBtn.addEventListener('click', function() {
@@ -247,19 +233,16 @@ if (document.getElementById('cart-items')) {
         });
     }
 
-    // Add event listener for checkout button
     const checkoutBtn = document.getElementById('checkout-btn');
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', showCheckoutForm);
     }
 
-    // Add event listener for checkout submit button
     const checkoutSubmitBtn = document.getElementById('checkout-submit-btn');
     if (checkoutSubmitBtn) {
         checkoutSubmitBtn.addEventListener('click', processCheckout);
     }
 
-    // Add event listener for checkout cancel button
     const checkoutCancelBtn = document.getElementById('checkout-cancel-btn');
     if (checkoutCancelBtn) {
         checkoutCancelBtn.addEventListener('click', hideCheckoutForm);
